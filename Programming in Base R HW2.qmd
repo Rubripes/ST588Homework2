@@ -1,0 +1,145 @@
+---
+title: |
+  | Programming in Base R
+  | Matt Bray
+format: html
+editor: visual
+---
+
+# Task 1 Step 1
+
+## Create Pre Dose and Post Dose Blood Pressure Vector with the Same Names for each Subject
+
+```{r}
+preTreatment <- c(120, 151, 125, 126, 115, 132, 132, 129, 134, 139, 127, 122, 127, 135, 133, 128, 147, 138, 140, 132)
+
+postTreatment <- c(127, 145, 135, 122, 115, 122, 123, 126, 126, 129, 132, 146, 120, 114, 121, 120, 128, 120, 133, 115)
+
+names(preTreatment) <- paste("Subject", 1:20, sep = "_")
+names(postTreatment) <- paste("Subject", 1:20, sep = "_")
+```
+
+# Task 1 Step 3
+
+## Calculate the change in blood pressure for each patient
+
+```{r}
+deltaBp <- preTreatment-postTreatment
+```
+
+# Task 1 Step 4
+
+## Calculate the average decrease in blood pressure across all patients.
+
+```{r}
+avgDeltabp <- mean(deltaBp)
+avgDeltabp
+```
+
+# Task 1 Step 5
+
+## Determine which patients experienced a decrease in blood pressure after treatment.
+
+```{r}
+decrPatient <- deltaBp[which(deltaBp>0)]
+decrPatient
+```
+
+# Task 1 Step 6
+
+## Subset patients with decrease in blood pressure after treatment.
+
+```{r}
+d <- deltaBp[deltaBp>0]
+d
+avGd <- mean(d)
+avGd
+```
+
+# Task 2 Step 1
+
+## Create a data frame object with four columns.
+
+```{r}
+df <- data.frame(preTreatment, postTreatment, deltaBp)
+df
+
+```
+
+# Task 2 Step 2
+
+## Return only rows of the data frame where the deltaBp column is negative
+
+```{r}
+incrPatient <- df[df$deltaBp<0,]
+incrPatient
+```
+
+# Task 2 Step 3
+
+## Add a new column to the data frame corresponding to TRUE if preTreatment is less than 120 and FALSE if it is not.
+
+```{r}
+df$lessThan<-df$postTreatment<120
+df
+```
+
+### Print DF
+
+```{r}
+knitr::kable(df)
+```
+
+# Task 3
+
+## Create Placebo Dataset
+
+```{r}
+placeboPre<-c(138, 135, 147, 117, 152, 134, 114, 121, 131, 130)
+placeboPost<-c(105, 136, 123, 130, 134, 143, 135, 139, 120, 124)
+names(placeboPre) <- paste("Subject", 1:10, sep = "_")
+names(placeboPost) <- paste("Subject", 1:10, sep = "_")
+deltaPlacebo<-placeboPre-placeboPost
+```
+
+# Task 3 Step 1
+
+## Create placebo dataframe
+
+```{r}
+dfPlacebo<-data.frame(placeboPre, placeboPost, deltaPlacebo)
+dfPlacebo$less120<-dfPlacebo$placeboPost<120
+dfPlacebo
+```
+
+### Print dfPlacebo
+
+```{r}
+knitr::kable(dfPlacebo)
+```
+
+# Task 3 Step 2
+
+## Create list of two elements...Treatment and Placebo Data frames
+
+```{r}
+list <- list("df"=df,"dfPlacebo"=dfPlacebo)
+```
+
+# Task 3 Step 3
+
+## Access first list element in three ways.
+
+```{r}
+list[1]
+list$df$preTreatment
+list(names(df))
+```
+
+# Task 3 Step 4
+
+## Use single line of code to access the placeboPre column of the placebo dataframe.
+
+```{r}
+list[[2]][1]
+```
